@@ -1,6 +1,7 @@
 ﻿package com.example.demo.service;
 
 import com.example.demo.dto.request.RequestCreateUserDto;
+import com.example.demo.dto.request.RequestUpdateUserDto;
 import com.example.demo.dto.response.ResponsePaginationUserDto;
 import com.example.demo.dto.response.ResponseUserDto;
 import com.example.demo.mapper.UserMapper;
@@ -36,5 +37,24 @@ public class UserService {
         Pageable pageable = PageRequest.of(page, size);
         var result = userRepository.findAll(pageable);
         return userMapper.toPaginationDto(result);
+    }
+
+    public void updateUserById(Long id, RequestUpdateUserDto dto){
+        var user = userRepository.findById(id).orElse(null);
+        if(user!= null){
+            if(dto.name() != null){
+                user.setName(dto.name());
+            }
+            if(dto.email() != null){
+                var emailExists = userRepository.findByEmail(dto.email());
+                if(emailExists != null){
+                    throw new RuntimeException("Email already exists");
+                }
+                user.setEmail(dto.email());
+            }
+        }
+    }
+    public void deleteUserById(Long id){
+        userRepository.deleteById(id);
     }
 }

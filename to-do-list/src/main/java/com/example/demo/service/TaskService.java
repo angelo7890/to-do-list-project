@@ -1,6 +1,7 @@
 ﻿package com.example.demo.service;
 
 import com.example.demo.dto.request.RequestCreateTaskDto;
+import com.example.demo.dto.request.RequestUpdateTasksDto;
 import com.example.demo.dto.response.ResponsePaginationTaskDto;
 import com.example.demo.dto.response.ResponseTaskDto;
 import com.example.demo.mapper.TaskMapper;
@@ -34,5 +35,24 @@ public class TaskService {
         Pageable pageable = PageRequest.of(page, size);
         var tasks = taskRepository.findAllByUserId(userId, pageable);
         return taskMapper.toPaginationDto(tasks);
+    }
+
+    public void updateTaskById(Long taskId, RequestUpdateTasksDto dto){
+        var task = taskRepository.findById(taskId).orElse(null);
+        if (task != null){
+            if(dto.title() != null){
+                task.setTitle(dto.title());
+            }
+            if(dto.description() != null){
+                task.setDescription(dto.description());
+            }
+            if(dto.status() != null){
+                task.setStatus(dto.status());
+            }
+        }
+    }
+
+    public void deleteTaskById(Long taskId){
+        taskRepository.deleteById(taskId);
     }
 }
