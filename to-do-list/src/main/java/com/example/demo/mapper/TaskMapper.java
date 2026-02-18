@@ -5,10 +5,7 @@ import com.example.demo.dto.response.ResponsePaginationTaskDto;
 import com.example.demo.dto.response.ResponseTaskDto;
 import com.example.demo.model.TaskModel;
 import org.springframework.data.domain.Page;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class TaskMapper {
 
